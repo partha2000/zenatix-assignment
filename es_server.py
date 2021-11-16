@@ -1,7 +1,6 @@
 import logging
 from elasticsearch import Elasticsearch
 
-print("es server started")
 
 def connect_elasticsearch():
     _es = None
@@ -13,7 +12,7 @@ def connect_elasticsearch():
         print('could not connect!')
     return _es
 
-def create_index(es_object, index_name='procmon'):
+def create_index(es_object, index_name):
     created = False
     # index settings
     settings = {
@@ -56,11 +55,19 @@ def create_index(es_object, index_name='procmon'):
 
 def store_record(elastic_object, index_name, record):
     try:
-        outcome = elastic_object.index(index=index_name, doc_type='process_montior',id=3, body=record)
+        outcome = elastic_object.index(index=index_name, doc_type='process_montior', body=record)
         print("added successfully!")
     except Exception as ex:
         print('Error in indexing data')
         print(str(ex))
+
+def show_data(object,procmonindex,id):
+    # try:
+        res = object.get(index=procmonindex, doc_type="process_monitor", id=id)
+        print(res["_source"])
+    # except:
+        # print("Not found")
+    
 
 if __name__ == '__main__':
   logging.basicConfig(level=logging.ERROR)

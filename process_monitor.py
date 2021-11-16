@@ -4,15 +4,14 @@ import psutil
 from es_server import *
 
 esObject = connect_elasticsearch()
-procmonIndex = create_index(esObject)
-doc_1 = {"PID": 1, "Name": "France", "RAM":2, "CPU":3}
-store_record(esObject, procmonIndex, doc_1)
+# indexCreated = create_index(esObject,'procmon')
 
-process_id = 1
-
-for process_id in psutil.pids()[-10:]:
+for process_id in psutil.pids():
     process = psutil.Process(process_id)
     print("PID #",process.pid,"PID name: ",process.name()," RAM = ",round(process.memory_percent(),2)," CPU = ",process.cpu_percent())
+    doc = {"PID": process.pid, "Name": process.name(), "RAM":round(process.memory_percent(),2), "CPU":process.cpu_percent()}
+    store_record(esObject, 'procmon', doc)
+    
 
 with tqdm(total=100, desc='cpu%', position=1) as cpubar, tqdm(total=100, desc='ram%', position=0) as rambar:
     while True:
