@@ -1,0 +1,11 @@
+PID,Name,RAM,CPU
+14,cpuhp/0,0,0
+36,ksoftirqd/4,0,0
+38,kworker/4:0H-kblockd,0,0
+39,cpuhp/5,0,0
+45,cpuhp/6,0,0
+50,kworker/6:0H-kblockd,0,0
+51,cpuhp/7,0,0
+56,kworker/7:0H-kblockd,0,0
+58,netns,0,0
+65,ksmd,0,0
